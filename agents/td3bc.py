@@ -18,9 +18,6 @@ class TD3BCAgent(flax.struct.PyTreeNode):
     network: Any
     agent_names: Sequence[str] = nonpytree_field()
     config: Any = nonpytree_field()
-    ema_svn_mu: jnp.ndarray
-    ema_svn_mad: jnp.ndarray
-    ema_svn_initialized: jnp.ndarray
 
     def _compute_future_discounted_returns(self, rewards_tm):
         discount = self.config['discount']
@@ -541,9 +538,6 @@ class TD3BCAgent(flax.struct.PyTreeNode):
             rng=master_rng,
             network=network,
             agent_names=tuple(agent_names),
-            ema_svn_mu=jnp.array(0.0, dtype=jnp.float32),
-            ema_svn_mad=jnp.array(1.0, dtype=jnp.float32),
-            ema_svn_initialized=jnp.array(0.0, dtype=jnp.float32),
             config=flax.core.FrozenDict(**config),
         )
 
